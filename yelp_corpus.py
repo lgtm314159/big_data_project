@@ -4,7 +4,6 @@ import multiprocessing
 
 from gensim import utils
 
-# cannot import whole gensim.corpora, because that imports wikicorpus...
 from gensim.corpora.dictionary import Dictionary
 from gensim.corpora.textcorpus import TextCorpus
 
@@ -60,7 +59,7 @@ class YelpCorpus(TextCorpus):
               yield tokens
         pool.terminate()
 
-        logger.info("finished iterating over Wikipedia corpus of %i documents with %i positions"
+        logger.info("finished iterating over the generated Yelp corpus of %i documents with %i positions"
             " (total %i articles, %i positions before pruning articles shorter than %i words)" %
             (reviews, positions, reviews, positions, 10000))
         self.length = reviews # cache corpus length

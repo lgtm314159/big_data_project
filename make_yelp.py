@@ -69,8 +69,7 @@ if __name__ == '__main__':
     else:
     '''
 
-    #wiki = WikiCorpus(inp, lemmatize=lemmatize) # takes about 9h on a macbook pro, for 3.5m articles (june 2011)
-    yelp = YelpCorpus(inp, lemmatize=lemmatize) # takes about 9h on a macbook pro, for 3.5m articles (june 2011)
+    yelp = YelpCorpus(inp, lemmatize=lemmatize)
     # only keep the most frequent words (out of total ~8.2m unique tokens)
     yelp.dictionary.filter_extremes(no_below=20, no_above=0.1, keep_n=DEFAULT_DICT_SIZE)
     # save dictionary and bag-of-words (term-document frequency matrix)
