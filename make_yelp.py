@@ -1,5 +1,5 @@
 """
-USAGE: %(program)s REVIEWS_IN_JSON OUTPUT_PREFIX [VOCABULARY_SIZE]
+USAGE: python %(program)s REVIEWS_IN_JSON OUTPUT_PREFIX [VOCABULARY_SIZE]
 
 Convert articles from a Wikipedia dump to (sparse) vectors. The input is a
 json format file that contains yelp reviews.
@@ -70,13 +70,13 @@ if __name__ == '__main__':
     '''
 
     yelp = YelpCorpus(inp, lemmatize=lemmatize)
-    # only keep the most frequent words (out of total ~8.2m unique tokens)
+    # only keep the most frequent words
     yelp.dictionary.filter_extremes(no_below=20, no_above=0.1, keep_n=DEFAULT_DICT_SIZE)
     # save dictionary and bag-of-words (term-document frequency matrix)
-    MmCorpus.serialize(outp + '_bow.mm', yelp, progress_cnt=10000) # another ~9h
     yelp.dictionary.save_as_text(outp + '_wordids.txt.bz2')
+    MmCorpus.serialize(outp + '_bow.mm', yelp, progress_cnt=10000)
     # load back the id->word mapping directly from file
-    # this seems to save more memory, compared to keeping the wiki.dictionary object from above
+    # this seems to save more memory, compared to keeping the yelp.dictionary object from above
     dictionary = Dictionary.load_from_text(outp + '_wordids.txt.bz2')
 
     del yelp

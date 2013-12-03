@@ -54,28 +54,28 @@ class YelpCorpus(TextCorpus):
         #for group in utils.chunkize(texts, chunksize=10 * self.processes, maxsize=1):
         for group in utils.chunkize(texts, chunksize=10 * self.processes, maxsize=1):
             for tokens in pool.imap(process_review, group): # chunksize=10):
-              reviews += 1
-              positions += len(tokens)
-              yield tokens
+                reviews += 1
+                positions += len(tokens)
+                yield tokens
         pool.terminate()
 
         logger.info("finished iterating over the generated Yelp corpus of %i documents with %i positions"
-            " (total %i articles, %i positions before pruning articles shorter than %i words)" %
-            (reviews, positions, reviews, positions, 10000))
+                " (total %i articles, %i positions before pruning articles shorter than %i words)" %
+                (reviews, positions, reviews, positions, 10000))
         self.length = reviews # cache corpus length
 
 def process_review(review):
     #return [token.encode('utf8') for token in utils.tokenize(review, lower=True, errors='ignore')
     #        if 2 <= len(token) <= 15]
     tokens = [token.encode('utf8') for token in utils.tokenize(review, lower=True, errors='ignore')
-        if 2 <= len(token) <= 15]
+            if 2 <= len(token) <= 15]
     tokens = [norm(token) for token in tokens if norm(token)]
     tokens = [token for token in tokens if token not in stwords]
     tokens = [stemmer.stem(token) for token in tokens if stemmer.stem(token)]
     return tokens
 
 def _extract_reviews(fname):
-  with open(fname, 'r') as reviews:
-    for review in reviews:
-      data = json.loads(review)
-      yield data['text']
+    with open(fname, 'r') as reviews:
+        for review in reviews:
+            data = json.loads(review)
+            yield data['text']
