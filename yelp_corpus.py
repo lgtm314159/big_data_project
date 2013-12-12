@@ -1,6 +1,7 @@
 import json
 import logging
 import multiprocessing
+import re
 
 from gensim import utils
 
